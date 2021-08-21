@@ -1,6 +1,5 @@
-import React from 'react';
-import main from './views/main';
-import control from './views/control';
+import main from './views/main/main';
+import control from './views/control/control';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const App = () => {
