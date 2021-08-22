@@ -1,34 +1,43 @@
 import styled from 'styled-components';
 import headerImg from '../../assets/header.png';
+import {useEffect, useState} from "react";
+
+const ipcRenderer = (window as any).ipcRenderer;
+
 const Main = () => {
+  const [Code, setCode] = useState('');
+  const [validata, setValidata] = useState(1)
+  useEffect(() => {
+    ipcRenderer.login(setCode)
+  },[])
   return (
     <Container>
       <UserPanel>
         <UserHeader>
-          <RoundImg src={headerImg} alt="用户头像" />
+          <RoundImg src={headerImg} alt="用户头像"/>
         </UserHeader>
       </UserPanel>
       <ControlPanel>
         <ControlCode>
-          <div>
-            <span>本机控制码</span>
-            <span>XXX XXX XXX</span>
-          </div>
-          <div>
-            <span>校验码</span>
-            <span>XXX XXX XXX</span>
-          </div>
+          <ControlCodeContainer>
+            <ControlCodeTitle>本机控制码</ControlCodeTitle>
+            <ControlCodeText>{Code}</ControlCodeText>
+          </ControlCodeContainer>
+          <ControlCodeContainer>
+            <ControlCodeTitle>校验码</ControlCodeTitle>
+            <ControlCodeText>XXX XXX XXX</ControlCodeText>
+          </ControlCodeContainer>
         </ControlCode>
         <Control>
           <form>
             <LabelText>
               <label htmlFor="control_code">受控端控制码</label>
             </LabelText>
-            <Input type="text" id="control_code" />
+            <Input type="text" id="control_code"/>
             <LabelText>
               <label htmlFor="validate_code">校验码</label>
             </LabelText>
-            <Input type="text" id="validate_code" />
+            <Input type="text" id="validate_code"/>
             <ButtonContainer>
               <Button>远程协同</Button>
             </ButtonContainer>
@@ -65,6 +74,7 @@ const ControlCode = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0 1rem 0 1rem;
 `;
 
 const Control = styled.div`
@@ -122,9 +132,25 @@ const Button = styled.button`
   /* text-shadow: 0 -1px 0 rgb(0 0 0 / 12%); */
   box-shadow: 0 2px #0000000b;
   outline: none;
-  :hover {
+
+  &:hover {
     color: #fff;
     border-color: #1890ff;
     background-color: #1890ff;
   }
 `;
+
+const ControlCodeContainer = styled.div`
+  width: 100%;
+`
+
+const ControlCodeTitle = styled.span`
+  display: inline-block;
+  width: 100%;
+  font-size: 2rem;
+  color: gray;
+`
+const ControlCodeText = styled.span`
+  font-size: 1.6rem;
+  color: #000;
+`

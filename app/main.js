@@ -1,22 +1,30 @@
-const { app, BrowserWindow } = require('electron')
-// const path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
-let win = null;
+const path = require('path')
 
-console.log(1);
+let win = null
 const createWindow = () => {
   win = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 800,
+    height: 600,
     webPreferences: {
       nodeIntegration: true,
+      preload: path.join(__dirname, './preload.js'),
     },
   });
 
-  const urlLocation = 'http://localhost:3000';
+  const urlLocation = 'http://localhost:3000/main';
 
   win.loadURL(urlLocation);
 };
+
+ipcMain.handle('login',()=>{
+  return new Promise(resolve=>{
+    setTimeout(()=>{
+      resolve(Math.floor(Math.random()* 1000000))
+    },3000)
+  })
+})
 
 app.on('ready', createWindow);
 
